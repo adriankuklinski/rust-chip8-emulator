@@ -1,11 +1,12 @@
 pub struct Cpu {
-    pub index_register: u16,
-    pub program_counter: u16,
-    pub memory: [u8; 4096],
-    pub registers: [u8; 16],
-    pub keypad: Keypad,
-    pub display: Display,
-    pub stack: [u16; 16],
-    pub stack_pointer: u8,
-    pub delay_timer: u8,
+    pub stack: [u16; 16],     // Stack
+    pub mem: [u8; 4096],      // Memory
+    pub i: u16,               // Index register 
+    pub v: [u8; 16],          // Registers
+    pub pc: u16,              // Program counter
+    pub fb: [u8; 64 * 32],    // Frame buffer
+    pub sp: u8,               // Stack pointer
+    pub dt: u8,               // Delay timer
+    pub st: u8,               // Sound timer
+    pub keypad: u16,          // Keypad 
 }
