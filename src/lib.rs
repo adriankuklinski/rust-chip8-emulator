@@ -1,6 +1,4 @@
 mod cpu;
-mod display;
-mod keypad;
 mod utils;
 
 use wasm_bindgen::prelude::*;
