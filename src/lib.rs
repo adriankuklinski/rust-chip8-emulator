@@ -1,4 +1,5 @@
 mod cpu;
+mod ram;
 mod utils;
 
 use wasm_bindgen::prelude::*;
