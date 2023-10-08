@@ -1,3 +1,4 @@
+pub mod chip8;
 mod cpu;
 mod ram;
 mod utils;

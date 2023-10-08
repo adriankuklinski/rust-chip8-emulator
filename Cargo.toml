@@ -6,6 +6,8 @@ edition = "2018"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
+name = "rust_chip8_emulator"
+path = "src/lib.rs"
 
 [features]
 default = ["console_error_panic_hook"]
