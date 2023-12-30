@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas from Rust</title>
+    <script type="module">
+        import init, { Chip8 } from './pkg/rust_chip8_emulator.js';
+
+        async function run() {
+            await init();
+
+            const chip8 = Chip8.new();
+            const canvas = document.getElementById("chip8-canvas");
+            const ctx = canvas.getContext("2d");
+            const scale = 10; // Scale factor for each pixel
+
+            chip8.get_rom("invaders");
+            const ramSlice = new Uint8Array(256);
+            chip8.copy_ram_slice_to_js(ramSlice, 0, 256);
+            console.log(ramSlice);
+
+            function frame() {
+                chip8.run_cycle();
+                const frameBufferData = new Uint8Array(2048);
+                chip8.copy_frame_buffer_to_js(frameBufferData);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (let i = 0; i < frameBufferData.length; i++) {
+                    const x = (i % 64) * scale;
+                    const y = Math.floor(i / 64) * scale;
+                    const color = frameBufferData[i] ? "white" : "black";
+                    ctx.fillStyle = color;
+                    ctx.fillRect(x, y, scale, scale);
+                }
+
+                requestAnimationFrame(frame);
+            }
+
+            frame();
+        }
+
+        run();
+    </script>
+</head>
+<body>
+    <canvas id="chip8-canvas" width="640" height="320"></canvas>
+</body>
+</html>
+

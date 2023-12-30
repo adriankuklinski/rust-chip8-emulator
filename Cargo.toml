@@ -9,11 +9,16 @@ crate-type = ["cdylib", "rlib"]
 name = "rust_chip8_emulator"
 path = "src/lib.rs"
 
+[toolchain]
+channel = "nightly-2022-07-24"
+
 [features]
 default = ["console_error_panic_hook"]
 
 [dependencies]
+getrandom = { version = "0.2.11", features = ["js"] }
 wasm-bindgen = "0.2.63"
+web-sys = { version = "0.3", features = ["Document", "Window", "CanvasRenderingContext2d", "HtmlCanvasElement", "console"] }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -25,6 +30,8 @@ console_error_panic_hook = { version = "0.1.6", optional = true }
 # compared to the default allocator's ~10K. It is slower than the default
 # allocator, however.
 wee_alloc = { version = "0.4.5", optional = true }
+rand = "0.8.5"
+js-sys = "0.3.66"
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"

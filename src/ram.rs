@@ -1,3 +1,5 @@
+use js_sys::Uint8Array;
+
 pub struct Ram {
     mem: [u8; 4096],
 }
@@ -36,8 +38,13 @@ impl Ram {
         ram
     }
 
+    pub fn copy_slice_to_js(&self, js_array: Uint8Array, start: usize, end: usize) {
+        let slice = &self.mem[start..end];
+        js_array.copy_from(slice);
+    }
+
     pub fn write_byte(&mut self, address: u16, value: u8) {
-        self.mem[address as usize] = value;        
+        self.mem[address as usize] = value;
     }
 
     pub fn read_byte(&mut self, address: u16) -> u8 {
