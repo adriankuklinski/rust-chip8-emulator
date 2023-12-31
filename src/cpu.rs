@@ -64,7 +64,7 @@ impl Cpu {
 
     pub fn fetch_opcode(&self, ram: &mut Ram) -> u16 {
         let hi = ram.read_byte(self.pc) as u16;
-        let lo = ram.read_byte(self.pc) as u16;
+        let lo = ram.read_byte(self.pc + 1) as u16;
         (hi << 8) | lo
     }
 
