@@ -15,9 +15,6 @@
             const scale = 10; // Scale factor for each pixel
 
             chip8.get_rom("invaders");
-            const ramSlice = new Uint8Array(256);
-            chip8.copy_ram_slice_to_js(ramSlice, 0, 256);
-            console.log(ramSlice);
 
             function frame() {
                 chip8.run_cycle();

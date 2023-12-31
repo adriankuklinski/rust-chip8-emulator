@@ -1,7 +1,7 @@
 use crate::ram::Ram;
 use crate::cpu::Cpu;
+use web_sys::CanvasRenderingContext2d;
 use wasm_bindgen::prelude::*;
-use web_sys::{CanvasRenderingContext2d, console};
 use wasm_bindgen::JsCast;
 use js_sys::Uint8Array;
 
@@ -18,10 +18,6 @@ impl Chip8 {
             ram: Ram::new(),
             cpu: Cpu::new(),
         }
-    }
-
-    pub fn copy_ram_slice_to_js(&self, js_array: Uint8Array, start: usize, end: usize) {
-        self.ram.copy_slice_to_js(js_array, start, end);
     }
 
     pub fn get_frame_buffer_ptr(&self) -> *const u8 {
@@ -64,7 +60,7 @@ impl Chip8 {
     pub fn load_rom_data(&mut self, data: &[u8]) {
         let offset = 0x200;
         for i in 0..data.len() {
-            self.ram.write_byte((offset + i) as u16, data[i])
+            self.ram.write_byte((offset + i) as u16, data[i]);
         }
     }
 

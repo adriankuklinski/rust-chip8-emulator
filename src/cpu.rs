@@ -160,10 +160,29 @@ impl Cpu {
                 let kk = (opcode & 0x00FF) as u8;
                 self.v[x] = rand::random::<u8>() & kk;
             },
-            // Dxyn: Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision
             0xD000 => {
-                // The actual implementation for this opcode can be quite lengthy.
-                // It involves drawing sprites to the display and checking for collisions.
+                let x = self.v[((opcode & 0x0F00) >> 8) as usize] as usize;
+                let y = self.v[((opcode & 0x00F0) >> 4) as usize] as usize;
+                let height = opcode & 0x000F;
+                self.v[0xF] = 0;
+
+                for row in 0..height {
+                    let sprite_byte = ram.read_byte(self.i + row);
+                    for col in 0..8 {
+                        // Check each bit of the sprite byte
+                        if (sprite_byte & (0x80 >> col)) != 0 {
+                            let screen_x = (x + col) % 64; // Wrap around the screen
+                            let screen_y = (y + row as usize) % 32;
+                            let index = screen_y * 64 + screen_x;
+
+                            // XOR sprite pixel with the screen's pixel
+                            if self.fb[index] == 1 {
+                                self.v[0xF] = 1; // Set VF register if collision occurs
+                            }
+                            self.fb[index] ^= 1;
+                        }
+                    }
+                }
             },
             // Ex9E and ExA1: Skip instructions based on key state
             0xE000 => {
