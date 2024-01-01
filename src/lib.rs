@@ -1,12 +1,12 @@
 pub mod chip8;
 mod cpu;
+mod keyboard;
 mod ram;
 mod utils;
 
 use console_error_panic_hook;
 use crate::chip8::Chip8;
 use wasm_bindgen::prelude::*;
-use web_sys::console;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.

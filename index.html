@@ -33,10 +33,34 @@
                 requestAnimationFrame(frame);
             }
 
+            document.addEventListener('keydown', (event) => {
+                let key = mapKeyToChip8(event.key);
+                if (key !== null) {
+                    chip8.key_down(key);
+                }
+            });
+
+            document.addEventListener('keyup', (event) => {
+                let key = mapKeyToChip8(event.key);
+                if (key !== null) {
+                    chip8.key_up(key);
+                }
+            });
+
+            function mapKeyToChip8(key) {
+                const keyMap = {
+                    '1': 0x1, '2': 0x2, '3': 0x3, '4': 0xC,
+                    'Q': 0x4, 'W': 0x5, 'E': 0x6, 'R': 0xD,
+                    // ... add the rest of your mapping here ...
+                };
+                return keyMap[key.toUpperCase()];
+            }
+
             frame();
         }
 
         run();
+
     </script>
 </head>
 <body>

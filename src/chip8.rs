@@ -1,5 +1,6 @@
-use crate::ram::Ram;
 use crate::cpu::Cpu;
+use crate::keyboard::Keyboard;
+use crate::ram::Ram;
 use web_sys::CanvasRenderingContext2d;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -9,6 +10,7 @@ use js_sys::Uint8Array;
 pub struct Chip8 {
     ram: Ram,
     cpu: Cpu,
+    keyboard: Keyboard
 }
 
 #[wasm_bindgen]
@@ -17,7 +19,20 @@ impl Chip8 {
         Chip8 {
             ram: Ram::new(),
             cpu: Cpu::new(),
+            keyboard: Keyboard::new(),
         }
+    }
+
+    pub fn key_down(&mut self, key: usize) {
+        self.keyboard.key_down(key);
+    }
+
+    pub fn key_up(&mut self, key: usize) {
+        self.keyboard.key_up(key);
+    }
+
+    pub fn is_key_pressed(&self, key: usize) -> bool {
+        self.keyboard.is_key_pressed(key)
     }
 
     pub fn get_frame_buffer_ptr(&self) -> *const u8 {
